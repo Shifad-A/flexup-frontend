@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Dropdown,
@@ -10,8 +10,24 @@ import {
   Button,
   NavbarToggle,
 } from "flowbite-react";
+import { useNavigate } from 'react-router-dom';
 
 function UserHeader() {
+  const navigate=useNavigate()
+  const [token,setToken]=useState('')
+  const [user,setUser]=useState({})
+  useState(()=>{
+    setToken(sessionStorage.getItem('token'))
+    setUser(JSON.parse(sessionStorage.getItem('user')|| {}))
+  })
+  console.log(user);
+  console.log(token);
+  
+  const handleLogout=()=>{
+    sessionStorage.removeItem('token')
+  sessionStorage.removeItem('user')
+  navigate('/login')
+  }
   return (
     <div >
         <Navbar fluid rounded className='bg-stone-100 fixed top-0 top-0 w-full h-16 px-6 z-50 '>
@@ -24,12 +40,12 @@ function UserHeader() {
           arrowIcon={false}
           inline
           label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+            <img alt="User" src={user.profile} width="50px" className='rounded-full' referrerPolicy='no-referrer' />
           }
         >
           <DropdownHeader>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block text-sm">{user.username}</span>
+            <span className="block truncate text-sm font-medium">{user.email}</span>  
           </DropdownHeader>
           <DropdownItem>Dashboard</DropdownItem>
           <DropdownItem>Settings</DropdownItem>
@@ -39,7 +55,7 @@ function UserHeader() {
         </Dropdown>
         <NavbarToggle />
         <div className='px-5'>
-        <Button className="bg-amber-400" >Logout</Button>
+        <Button onClick={handleLogout} className="bg-amber-400" >Logout</Button>
       </div>
       </div>
       

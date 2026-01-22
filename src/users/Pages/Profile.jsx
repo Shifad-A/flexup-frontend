@@ -5,8 +5,19 @@ import { MdDashboard } from "react-icons/md";
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
 import { CiEdit } from "react-icons/ci";
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function Profile() {
+    const navigate=useNavigate()
+  const [token,setToken]=useState('')
+  const [user,setUser]=useState({})
+  useState(()=>{
+    setToken(sessionStorage.getItem('token'))
+    setUser(JSON.parse(sessionStorage.getItem('user')|| {}))
+  })
+  console.log(user);
+  console.log(token);
     return (
         <div>
             <UserHeader />
@@ -19,9 +30,9 @@ function Profile() {
                         <div className=' shadow rounded-lg  p-5'>
                             <div className='flex justify-between'>
                                 <div className='flex '>
-                                    <img className='w-40 h-40 rounded-full object-cover' src="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="" />
+                                    <img className='w-40 h-40 rounded-full object-cover' src={user.profile} alt="" />
                                     <div className='ms-5' >
-                                        <h1 className='text-xl font-semibold'>Shifad A</h1>
+                                        <h1 className='text-xl font-semibold'>{user.username}</h1>
                                         <p className='font-semibold'>520 friends</p>
                                     </div>
                                 </div>

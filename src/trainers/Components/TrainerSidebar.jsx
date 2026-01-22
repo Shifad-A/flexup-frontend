@@ -12,42 +12,40 @@ import { MdDashboard } from "react-icons/md";
 function TrainerSidebar() {
   return (
     <div>
-        <Sidebar className='p-10 h-screen bg-stone-50 w-full ' aria-label="Default sidebar example">
-                      <SidebarItems>
-                        <SidebarItemGroup>
-                            <Link to='/trainer-dashboard'>
-                          <SidebarItem icon={MdDashboard}>
-                            Dashboard
-                          </SidebarItem>
-                          </Link>
-                          <Link to='/myclients'>
-                          <SidebarItem  icon={CgProfile}  >
-                            My clients
-                          </SidebarItem>
-                          </Link>
-                          <Link to='/trainer-messages'>
-                          <SidebarItem  icon={MdMessage}   labelColor="dark">
-                            Message
-                          </SidebarItem>
-                          </Link>
-                          <Link to='/trainer-earnings'>
-                          <SidebarItem icon={RiMoneyDollarCircleLine} >
-                            Earnings
-                          </SidebarItem>
-                          </Link>
-                          <Link to='/trainer-schedules'>
-                          <SidebarItem icon={SlCalender} >
-                            Schedule
-                          </SidebarItem>
-                          </Link>
-                          
-                          
-                          <SidebarItem  icon={IoLogOut}>
-                            Logout
-                          </SidebarItem>
-                        </SidebarItemGroup>
-                      </SidebarItems>
-                    </Sidebar>
+      <Sidebar className='p-10 h-screen bg-stone-50 w-full ' aria-label="Default sidebar example">
+        <SidebarItems>
+          <SidebarItemGroup>
+            <div>
+              <SidebarItem as={Link} to='/trainer-dashboard' icon={MdDashboard}>
+                Dashboard
+              </SidebarItem>
+            </div>
+            <div>
+              <SidebarItem as={Link} to='/myclients' icon={CgProfile}  >
+                My clients
+              </SidebarItem>
+            </div>
+            <div>
+              <SidebarItem as={Link} to='/trainer-messages' icon={MdMessage} labelColor="dark">
+                Message
+              </SidebarItem>
+            </div>
+            <div>
+              <SidebarItem as={Link} to='/trainer-earnings' icon={RiMoneyDollarCircleLine} >
+                Earnings
+              </SidebarItem>
+            </div>
+            <div>
+              <SidebarItem as={Link} to='/trainer-schedules' icon={SlCalender} >
+                Schedule
+              </SidebarItem>
+            </div>
+            <SidebarItem icon={IoLogOut}>
+              Logout
+            </SidebarItem>
+          </SidebarItemGroup>
+        </SidebarItems>
+      </Sidebar>
     </div>
   )
 }

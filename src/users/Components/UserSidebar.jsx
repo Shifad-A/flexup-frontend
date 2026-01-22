@@ -14,38 +14,25 @@ function UserSidebar() {
         <Sidebar className='p-10 bg-stone-50 fixed top-16 left-0 w-64 h-[calc(100vh-4rem)]' aria-label="Default sidebar example">
               <SidebarItems>
                 <SidebarItemGroup>
-                  <Link to='/community-feed'>
-                  <SidebarItem href="#" icon={FaHome}  >
+                  <SidebarItem  as={Link} to='/community-feed'icon={FaHome}  >
                     Home
                   </SidebarItem>
-                  </Link>
-                  <Link to='/trainers'>
-                  <SidebarItem href="" icon={IoIosMan}   labelColor="dark">
+                  <SidebarItem as={Link} to='/trainers' icon={IoIosMan}   labelColor="dark">
                     Trainers
                   </SidebarItem>
-                  </Link>
-                  <Link to='/friends'>
-                  <SidebarItem href="/friends" icon={FaUserFriends} >
+                  <SidebarItem  as={Link} to='/friends' icon={FaUserFriends} >
                     friends
                   </SidebarItem>
-                  </Link>
-                  <Link to='/messages'>
-                  <SidebarItem href="" icon={IoNotifications} >
+                  <SidebarItem as={Link} to='/messages' icon={IoNotifications} >
                     Messages
                   </SidebarItem>
-                  </Link>
-                  <Link to='/my-trainers'>
-                  <SidebarItem href="" icon={IoIosMan}   labelColor="dark">
+                  <SidebarItem as={Link} to='/my-trainers' icon={IoIosMan}   labelColor="dark">
                     MY Trainer
                   </SidebarItem>
-                  </Link>
-                  <Link to='/profile'>
-                    <SidebarItem href="#" icon={CgProfile} >
+                 <SidebarItem as={Link} to='/profile' icon={CgProfile} >
                     Profile
-                  </SidebarItem>
-                  </Link>
-                  
-                  <SidebarItem href="#" icon={IoLogOut}>
+                  </SidebarItem>                 
+                  <SidebarItem icon={IoLogOut}>
                     Logout
                   </SidebarItem>
                 </SidebarItemGroup>

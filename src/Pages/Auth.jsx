@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { loginAPI, registerAPI } from '../services/allAPIs';
+import { googleLoginAPI, loginAPI, registerAPI } from '../services/allAPIs';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { Select } from "flowbite-react";
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 function Auth({ register }) {
   const [userData, setUserData] = useState({ username: "", password: "", email: "", role: "" })
@@ -34,10 +37,11 @@ function Auth({ register }) {
     } else {
       try {
         const result = await loginAPI({ email, password })
-        console.log(result);
+        console.log(result);    
         if (result.status == 200) {
+          sessionStorage.setItem('token', result.data.token)
+          sessionStorage.setItem('user',JSON.stringify(result.data.existingUser))
           if (result.data.existingUser.role == "FlexUp user") {
-
             setTimeout(() => {
               navigate('/community-feed')
             }, 3000)
@@ -72,12 +76,44 @@ function Auth({ register }) {
             transition: Bounce,
           });
         }
-
-
       } catch (err) {
         console.log(err);
       }
     }
+
+  }
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    const decode = jwtDecode(credentialResponse.credential)
+    console.log(decode);
+    try {
+      const response = await googleLoginAPI({ username: decode.name, email: decode.email, profile: decode.picture, password: "googlepassword" })
+      console.log(response);
+      if (response.status == 200) {
+        sessionStorage.setItem("token", response.data.token)
+        sessionStorage.setItem("user", JSON.stringify(response.data.existingUser))
+        setTimeout(()=>{
+            navigate('/community-feed')
+          },3000)
+        toast.success(response.data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+      }
+
+    } catch (error) {
+      console.log(error);
+
+
+    }
+
 
   }
   return (
@@ -112,26 +148,37 @@ function Auth({ register }) {
               </div>
               <TextInput onChange={(e) => setUserData({ ...userData, password: e.target.value })} id="password1" type="password" required />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password1">Role</Label>
-              </div>
-              <Dropdown
-                placeholder="Select Role"
-                onChange={(e) => setUserData({ ...userData, role: e.target.value })}
-                className='bg-white hover:bg-white text-stone-400'
-              >
-                <DropdownItem >FlexUp user</DropdownItem>
-                <DropdownItem>FlexUp trainer</DropdownItem>
 
-              </Dropdown>
+            <div>
+              <Select
+                value={userData.role}
+                onChange={(e) =>
+                  setUserData({ ...userData, role: e.target.value })
+                }
+              >
+                <option value="">Select Role</option>
+                <option value="FlexUp user">FlexUp user</option>
+                <option value="FlexUp trainer">FlexUp trainer</option>
+              </Select>
             </div>
             <div className="flex items-center gap-2">
               <Checkbox id="remember" />
               <Label htmlFor="remember">Remember me</Label>
             </div>
             {
-              register ? <Button onClick={handleRegister} className='bg-amber-500 hover:bg-amber-600' type="button">SignUp</Button> : <Button onClick={handleLogin} className='bg-amber-500 hover:bg-amber-600' type="button">SignIn</Button>
+              register ? <Button onClick={handleRegister} className='bg-amber-500 hover:bg-amber-600' type="button">SignUp</Button> :
+                <div className='flex flex-col gap-5'>
+                  <Button onClick={handleLogin} className='bg-amber-500 hover:bg-amber-600 w-full' type="button">SignIn</Button>
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      console.log(credentialResponse);
+                      handleGoogleLogin(credentialResponse)
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />;
+                </div>
             }
           </form>
         </div>
