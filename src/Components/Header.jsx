@@ -7,7 +7,7 @@ function Header() {
         
         <Navbar fluid rounded className='mx-10 p-10 bg-stone-100'>
               <NavbarBrand href="https://flowbite-react.com">
-                <img src="public/letter-f.png" className="mr-3 h-6 sm:h-9" alt="FlexUp-logo" />
+                <img src="/letter-f.png" className="mr-3 h-6 sm:h-9" alt="FlexUp-logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">FlexUp</span>
                 
               </NavbarBrand>

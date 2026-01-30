@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Avatar,
   Dropdown,
@@ -16,10 +16,11 @@ function UserHeader() {
   const navigate=useNavigate()
   const [token,setToken]=useState('')
   const [user,setUser]=useState({})
-  useState(()=>{
+
+  useEffect(()=>{
     setToken(sessionStorage.getItem('token'))
     setUser(JSON.parse(sessionStorage.getItem('user')|| {}))
-  })
+  },[])
   console.log(user);
   console.log(token);
   
@@ -32,7 +33,7 @@ function UserHeader() {
     <div >
         <Navbar fluid rounded className='bg-stone-100 fixed top-0 top-0 w-full h-16 px-6 z-50 '>
       <NavbarBrand href="https://flowbite-react.com">
-        <img src="public/letter-f.png" className="mr-3 h-6 sm:h-9" alt="" />
+        <img src="/letter-f.png" className="mr-3 h-6 sm:h-9" alt="" />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">FlexUp</span>
       </NavbarBrand>
       <div className="flex md:order-2">

@@ -1,15 +1,14 @@
 import { Button, Card,Avatar } from 'flowbite-react'
 import { TabItem, Tabs } from "flowbite-react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
-import { CiEdit } from "react-icons/ci";
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import EditProfile from '../Components/EditProfile';
 
 function Profile() {
-    const navigate=useNavigate()
+    
   const [token,setToken]=useState('')
   const [user,setUser]=useState({})
   useState(()=>{
@@ -37,7 +36,7 @@ function Profile() {
                                     </div>
                                 </div>
                                 <div>
-                                    <Button color={'alternative'}><CiEdit /></Button>
+                                    <EditProfile/>
                                 </div>
 
                             </div>
