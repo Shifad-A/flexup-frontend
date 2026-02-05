@@ -16,3 +16,16 @@ export const googleLoginAPI=async(reqBody)=>{
 export const getUserAPI=async(reqHeader)=>{
         return await commonAPI('get',`${serverURL}/api/getUser`,{},reqHeader)
 }
+
+export const updateUserAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('put',`${serverURL}/api/update-user`,reqBody,reqHeader)
+}
+export const getUsersAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/all-users`,{},reqHeader)
+}
+export const getTrainerAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/all-trainers`,{},reqHeader)
+}
+export const trainerRequestAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('put',`${serverURL}/api/trainer-request`,reqBody,reqHeader)
+}

@@ -1,12 +1,58 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
 import { Button, Card, TextInput } from "flowbite-react";
 import { HiSearch } from "react-icons/hi";
 import { MdVerifiedUser } from "react-icons/md";
+import { getTrainerAPI, trainerRequestAPI } from '../../services/allAPIs';
 
 function Trainers() {
-    
+    const [token, setToken] = useState('')
+    const [trainers, setTrainers] = useState([])
+    console.log(token);
+    console.log(trainers);
+
+
+    useEffect(() => {
+        const storedToken = sessionStorage.getItem('token')
+        if (storedToken) {
+            setToken(storedToken)
+        }
+    }, [])
+
+    const allTrainers = async () => {
+        console.log("inside all books");
+
+        const reqHeader = {
+            Authorization: `Bearer ${token}`
+        }
+        const result = await getTrainerAPI(reqHeader)
+        console.log(result);
+        setTrainers(result.data)
+    }
+    useEffect(() => {
+        allTrainers()
+    }, [token])
+
+    // const handleTrainerRequest=async(trainerId)=>{
+    //     console.log("Inside trainer Request");
+
+    //     try {
+    //         const reqHeader={
+    //         Authorization: `Bearer ${token}`
+    //     }
+    //     const reqBody={
+    //         trainerId
+    //     }
+        
+    //     const result=await trainerRequestAPI(reqBody,reqHeader)
+    //     console.log(result);
+    //     } catch (err) {
+    //         console.log("error"+err);
+            
+    //     }
+    // }
+
     return (
         <div>
             <UserHeader />
@@ -27,102 +73,51 @@ function Trainers() {
                         />
                     </div>
                     <div className='flex gap-5 p-5 flex-wrap justify-start p-3 '>
-                        <Card>
-                            <div className='flex gap-5'>
-                                <div >
-                                    <img src="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" className='w-25 rounded-lg' alt="" />
-                                </div>
-                                <div>
-                                    <h1 className='text-xl font-bold'>Shifad A</h1>
-                                    <p>Strength Coach</p>
-                                    <p>⭐⭐⭐⭐</p>
-                                    <div className='flex my-3 text-green-500'>
-                                        <p className='mt-1'>
-                                            <MdVerifiedUser />
-                                        </p>
-                                        <p>verified</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div>
-                                <Button className='w-full'>View profile</Button>
+                        {
+                            trainers ?
+                                trainers.map(item => [
+                                    <Card className="flex flex-col gap-4 p-4 w-full sm:max-w-md">
+                                        <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
 
-                            </div>
-                        </Card>
-                        <Card>
-                            <div className='flex gap-5'>
-                                <div >
-                                    <img src="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" className='w-25 rounded-lg' alt="" />
-                                </div>
-                                <div>
-                                    <h1 className='text-xl font-bold'>Shifad A</h1>
-                                    <p>Strength Coach</p>
-                                    <p>⭐⭐⭐⭐</p>
-                                    <div className='flex my-3 text-green-500'>
-                                        <p className='mt-1'>
-                                            <MdVerifiedUser />
-                                        </p>
-                                        <p>verified</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div>
-                                <Button className='w-full'>View profile</Button>
+                                            {/* Profile Image */}
+                                            <img
+                                                src={item.profile}
+                                                alt="profile"
+                                                className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover"
+                                            />
 
-                            </div>
-                        </Card>
-                        <Card>
-                            <div className='flex gap-5'>
-                                <div >
-                                    <img src="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" className='w-25 rounded-lg' alt="" />
-                                </div>
-                                <div>
-                                    <h1 className='text-xl font-bold'>Shifad A</h1>
-                                    <p>Strength Coach</p>
-                                    <p>⭐⭐⭐⭐</p>
-                                    <div className='flex my-3 text-green-500'>
-                                        <p className='mt-1'>
-                                            <MdVerifiedUser />
-                                        </p>
-                                        <p>verified</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div>
-                                <Button className='w-full'>View profile</Button>
+                                            {/* User Info */}
+                                            <div className="text-center sm:text-left">
+                                                <h1 className="text-lg sm:text-xl font-bold">
+                                                    {item.username}
+                                                </h1>
+                                                <p className="text-sm text-gray-500">{item.email}</p>
 
-                            </div>
-                        </Card>
-                        <Card>
-                            <div className='flex gap-5'>
-                                <div >
-                                    <img src="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" className='w-25 rounded-lg' alt="" />
-                                </div>
-                                <div>
-                                    <h1 className='text-xl font-bold'>Shifad A</h1>
-                                    <p>Strength Coach</p>
-                                    <p>⭐⭐⭐⭐</p>
-                                    <div className='flex my-3 text-green-500'>
-                                        <p className='mt-1'>
-                                            <MdVerifiedUser />
-                                        </p>
-                                        <p>verified</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div>
-                                <Button className='w-full'>View profile</Button>
+                                                <p className="text-yellow-500 mt-1">⭐⭐⭐⭐</p>
 
-                            </div>
-                        </Card>
+                                                <div className="flex justify-center sm:justify-start items-center gap-1 text-green-500 mt-2">
+                                                    <MdVerifiedUser />
+                                                    <span className="text-sm">Verified</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr className="my-2" />
+                                        
+                                        <div className='flex gap-3'>
+                                            <Button className="w-full">
+                                            View Profile
+                                        </Button>
+                                        <Button onClick={()=>handleTrainerRequest(item._id)} color={'alternative'} className="w-full">
+                                            Send Trainer Request
+                                        </Button>
+                                        </div>
+                                    </Card>
+                                ]) : "No Trainers Found"
+                        }
 
                     </div>
                     <div>
-                        
+
                     </div>
                 </div>
             </div>

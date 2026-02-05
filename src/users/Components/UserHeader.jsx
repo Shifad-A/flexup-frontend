@@ -41,7 +41,7 @@ function UserHeader() {
           arrowIcon={false}
           inline
           label={
-            <img alt="User" src={user.profile} width="50px" className='rounded-full' referrerPolicy='no-referrer' />
+            <img alt="User" src={user.profile}  className='rounded-full w-13 h-13' referrerPolicy='no-referrer' />
           }
         >
           <DropdownHeader>

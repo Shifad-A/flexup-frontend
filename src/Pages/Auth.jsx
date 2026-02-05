@@ -128,6 +128,7 @@ function Auth({ register }) {
             <div>
               {
                 register &&
+                
                 <div >
                   <div className="mb-2 block">
                     <Label htmlFor="name" className='mb-2'>UserName</Label>

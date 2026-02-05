@@ -60,11 +60,7 @@ function Profile() {
                     <div>
                         <Tabs className='flex justify-center flex-wrap px-20 ' aria-label="Tabs with icons" variant="underline">
                             <TabItem active title="About" icon={HiUserCircle}>
-                                This is <span className="font-medium text-gray-800 dark:text-white">Profile tab's associated content</span>.
-                                Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                                control the content visibility and styling.
-                            </TabItem>
-                            <TabItem title="Posts" icon={MdDashboard}>
+                               {user.bio}
 
 
                             </TabItem>
