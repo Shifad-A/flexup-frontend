@@ -4,17 +4,17 @@ import { HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditProfile from '../Components/EditProfile';
 
 function Profile() {
     
   const [token,setToken]=useState('')
   const [user,setUser]=useState({})
-  useState(()=>{
+  useEffect(()=>{
     setToken(sessionStorage.getItem('token'))
     setUser(JSON.parse(sessionStorage.getItem('user')|| {}))
-  })
+  },[token])
   console.log(user);
   console.log(token);
     return (

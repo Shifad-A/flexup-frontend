@@ -85,20 +85,12 @@ function EditProfile() {
             if (result.status == 200) {
                 alert("updated successfully")
                 console.log(result.data.updateUser);
-                
                 sessionStorage.setItem('user',JSON.stringify(result.data.updateUser))
             } else {
                 alert("upload error")
             }
-
-            
-
-
-
         } catch (err) {
             console.log("error" + err);
-
-
         }
 
     }

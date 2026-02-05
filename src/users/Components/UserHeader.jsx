@@ -48,9 +48,8 @@ function UserHeader() {
             <span className="block text-sm">{user.username}</span>
             <span className="block truncate text-sm font-medium">{user.email}</span>  
           </DropdownHeader>
-          <DropdownItem>Dashboard</DropdownItem>
-          <DropdownItem>Settings</DropdownItem>
-          <DropdownItem>Earnings</DropdownItem>
+          <DropdownItem>Home</DropdownItem>
+          <DropdownItem>Message</DropdownItem>
           <DropdownDivider />
           <DropdownItem>Sign out</DropdownItem>
         </Dropdown>

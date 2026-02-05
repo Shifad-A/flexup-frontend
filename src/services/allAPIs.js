@@ -27,5 +27,20 @@ export const getTrainerAPI=async(reqHeader)=>{
         return await commonAPI('get',`${serverURL}/api/all-trainers`,{},reqHeader)
 }
 export const trainerRequestAPI=async(reqBody,reqHeader)=>{
-        return await commonAPI('put',`${serverURL}/api/trainer-request`,reqBody,reqHeader)
+        return await commonAPI('post',`${serverURL}/api/trainer-request`,reqBody,reqHeader)
+}
+export const requestsViewAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get-trainerRequests`,{},reqHeader)
+}
+export const acceptTrainerRequestsAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('put',`${serverURL}/api/trainer/request-accept`,reqBody,reqHeader)
+}
+export const declineTrainerRequestsAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('put',`${serverURL}/api/trainer/request-reject`,reqBody,reqHeader)
+}
+export const viewMyClientsAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get-myClients`,{},reqHeader)
+}
+export const dashboardStatusAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get-dashStatus`,{},reqHeader)
 }

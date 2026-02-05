@@ -23,35 +23,49 @@ function Trainers() {
     const allTrainers = async () => {
         console.log("inside all books");
 
-        const reqHeader = {
+        try {
+            const reqHeader = {
             Authorization: `Bearer ${token}`
         }
         const result = await getTrainerAPI(reqHeader)
         console.log(result);
         setTrainers(result.data)
+        } catch (err) {
+            console.log(err);
+            
+        }
     }
     useEffect(() => {
         allTrainers()
     }, [token])
 
-    // const handleTrainerRequest=async(trainerId)=>{
-    //     console.log("Inside trainer Request");
+    const handleTrainerRequest=async(trainerId)=>{
 
-    //     try {
-    //         const reqHeader={
-    //         Authorization: `Bearer ${token}`
-    //     }
-    //     const reqBody={
-    //         trainerId
-    //     }
-        
-    //     const result=await trainerRequestAPI(reqBody,reqHeader)
-    //     console.log(result);
-    //     } catch (err) {
-    //         console.log("error"+err);
+        try {
+            const reqHeader={
+            Authorization: `Bearer ${token}`
+        }
+        const reqBody={
+            trainerId,
+        }
+        const result =await trainerRequestAPI(reqBody,reqHeader)
+        console.log(result);
+        if(result.status===401){
+            return alert(result.response.data)
+        }
+        alert(result.data)
             
-    //     }
-    // }
+        } catch (err) {
+            console.log(err);
+            
+            
+        }
+
+        
+
+
+
+    }
 
     return (
         <div>

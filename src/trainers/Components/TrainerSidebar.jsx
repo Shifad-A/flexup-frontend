@@ -12,7 +12,7 @@ import { MdDashboard } from "react-icons/md";
 function TrainerSidebar() {
   return (
     <div>
-      <Sidebar className='p-10 h-screen bg-stone-50 w-full ' aria-label="Default sidebar example">
+      <Sidebar className='p-10 bg-stone-50 fixed top-16 left-0 w-64 h-[calc(100vh-4rem)]' aria-label="Default sidebar example">
         <SidebarItems>
           <SidebarItemGroup>
             <div>

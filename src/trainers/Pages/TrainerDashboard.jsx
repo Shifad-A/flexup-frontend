@@ -1,180 +1,242 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TrainerHeader from '../Components/TrainerHeader'
 import TrainerSidebar from '../Components/TrainerSidebar'
 import { Button, Card } from 'flowbite-react'
 import { Avatar } from "flowbite-react";
-
+import { acceptTrainerRequestsAPI, dashboardStatusAPI, declineTrainerRequestsAPI, requestsViewAPI } from '../../services/allAPIs';
 
 function TrainerDashboard() {
+  const [trainer, setTrainer] = useState({})
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setToken(sessionStorage.getItem('token'))
+    setTrainer(JSON.parse(sessionStorage.getItem('user') || {}))
+  }, [token])
+  const [status, setStatus] = useState({
+    pendingRequests: 0,
+    totalClients: 0
+  })
+  console.log(token);
+  console.log(trainer);
+
+  const [requests, setRequests] = useState([])
+  console.log(requests);
+
+  const handleViewRequest = async () => {
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    }
+    const result = await requestsViewAPI(reqHeader)
+    console.log(result);
+    setRequests(result.data)
+
+  }
+
+  useEffect(() => {
+    if (token) {
+      handleViewRequest()
+    }
+  }, [token])
+
+  const acceptTrainerRequest = async (id) => {
+    const reqBody = {
+      requestId: id
+    }
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    }
+    try {
+      const result = await acceptTrainerRequestsAPI(reqBody, reqHeader)
+      handleViewRequest();
+      handleDashboardStatus();
+      console.log(result);
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
+
+  const declineTrainerRequest = async (id) => {
+    const reqBody = {
+      requestId: id
+    }
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    }
+    try {
+      const result = await declineTrainerRequestsAPI(reqBody, reqHeader)
+      handleViewRequest();
+      handleDashboardStatus();
+      console.log(result);
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
+
+const handleDashboardStatus=async()=>{
+  console.log(token);
+    try {
+      const reqHeader ={
+        Authorization: `Bearer ${token}`
+      }
+
+      const result=await dashboardStatusAPI(reqHeader)
+      console.log(result);
+      setStatus(result.data)
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
+  useEffect(()=>{
+      if(token){
+        handleDashboardStatus()
+      }
+  },[token])
   return (
     <div>
       <TrainerHeader />
       <div className="w-75 fixed top-16 left-0 right-0 z-40">
         <TrainerSidebar />
       </div>
-      <div className='ml-75 p-8'>
-        <div className='flex mt-10'>
-          <div className="w-2/3 ">
-            <div>
-              <h1 className='text-2xl font-semibold'>Welcome, Shifad!</h1>
-              <p className='font-medium'>Here is a quick overview of your activities.</p>
-              <div className='flex gap-5 p-5'>
 
-                <Card className='shadow p-5 flex gap-5' >
-                  <img src="public/handshake.png" width='50px' alt="" />
-                  <div>
-                    <h1 className='text-2xl font-semibold'>6</h1>
-                    <h1>New Requests</h1>
-                  </div>
-                </Card>
+      <div className="px-4 sm:px-6 lg:px-10 py-6 ms-70 mt-5">
+        <div className="flex flex-col lg:flex-row gap-6 mt-10">
 
-                <Card className='shadow p-5 flex gap-5' >
-                  <img src="public/customer.png" width='50px' alt="" />
-                  <div>
-                    <h1 className='text-2xl font-semibold'>30</h1>
-                    <h1 >Total clients</h1>
-                  </div>
-                </Card>
-                <Card className='shadow p-5 flex gap-5' >
-                  <img src="public/money.png" width='50px' alt="" />
-                  <div>
-                    <h1 className='text-2xl font-semibold'>20,000</h1>
-                    <h1 >Earnings</h1>
-                  </div>
-                </Card>
+          <div className="w-full lg:w-2/3">
+            <h1 className="text-2xl font-semibold">
+              Welcome,{trainer.username}
+            </h1>
+            <p className="font-medium mb-6">
+              Here is a quick overview of your activities.
+            </p>
 
-              </div>
-              <div className='m-5'>
-                <Card className="w-full">
-                  <div className="mb-4 flex items-center justify-between">
-                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Recent Client Requests</h5>
-                    <a href="#" className="text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                      View all
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Card className="shadow p-5 flex items-center gap-4">
+                <img src="/handshake.png" className="w-12" />
+                <div>
+                  <h1 className="text-2xl font-semibold">{status.pendingRequests}</h1>
+                  <p>New Requests</p>
+                </div>
+              </Card>
+
+              <Card className="shadow p-5 flex items-center gap-4">
+                <img src="/customer.png" className="w-12" />
+                <div>
+                  <h1 className="text-2xl font-semibold">{status.totalClients}</h1>
+                  <p>Total clients</p>
+                </div>
+              </Card>
+
+              <Card className="shadow p-5 flex items-center gap-4">
+                <img src="/money.png" className="w-12" />
+                <div>
+                  <h1 className="text-2xl font-semibold">20,000</h1>
+                  <p>Earnings</p>
+                </div>
+              </Card>
+            </div>
+
+            {/* REQUESTS */}
+            <div className="mt-6">
+              <Card>
+                <h5 className="text-xl font-bold">
+                  Recent Client Requests
+                </h5>
+                <ul className="divide-y h-74 overflow-y-auto">
+                  {requests && requests.length > 0 ? (
+                    requests.map((item) => (
+                      <li key={item._id} className="py-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                          <Avatar img={item.user.profile} rounded />
+
+                          <div className="flex-1">
+                            <p className="font-medium">{item.user.username}</p>
+                            <p className="text-sm text-gray-500">
+                              {item.user.email}
+                            </p>
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Neil Sims</p>
-                            <p className="truncate text-sm text-gray-500 dark:text-gray-400">Diet plan questian</p>
-                          </div>
-                          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <Button className='bg-green-400 hover:bg-green-500'>View details</Button>
+
+                          <div className='flex gap-2' >
+                            {
+                              item.status == "accepted" ?
+
+                                <div className='flex gap-2'>
+                                  <Button
+
+                                    className="bg-green-400 hover:bg-green-500"
+                                  >
+                                    Accepted
+                                  </Button>
+                                  <Button
+                                    onClick={() => declineTrainerRequest(item._id)}
+                                    className="bg-red-400 hover:bg-red-500">
+                                    Remove
+                                  </Button>
+                                </div>
+                                :
+                                <div className='flex gap-2'>
+                                  <Button
+                                    onClick={() => acceptTrainerRequest(item._id)}
+                                    className="bg-green-400 hover:bg-green-500"
+                                  >
+                                    Accept
+                                  </Button>
+                                  <Button
+                                    onClick={() => declineTrainerRequest(item._id)}
+                                    className="bg-red-400 hover:bg-red-500">
+                                    Decline
+                                  </Button>
+                                </div>
+                            }
                           </div>
                         </div>
                       </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Bonnie Green</p>
-                            <p className="truncate text-sm text-gray-500 dark:text-gray-400">Looking for weight loose</p>
-                          </div>
-                          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <Button className='bg-green-400 hover:bg-green-500'>View details</Button>
-                          </div>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Michael Gough</p>
-                            <p className="truncate text-sm text-gray-500 dark:text-gray-400">i wan't a strength training session</p>
-                          </div>
-                          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <Button className='bg-green-400 hover:bg-green-500'>View details</Button>
-                          </div>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Lana Byrd</p>
-                            <p className="truncate text-sm text-gray-500 dark:text-gray-400">I wan't a yoga session</p>
-                          </div>
-                          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <Button className='bg-green-400 hover:bg-green-500'>View details</Button>
-                          </div>
-                        </div>
-                      </li>
-
-                    </ul>
-                  </div>
-                </Card>
-              </div>
+                    ))
+                  ) : (
+                    <p className="text-center text-gray-500 py-4">
+                      No Requests
+                    </p>
+                  )}
+                </ul>
+              </Card>
             </div>
           </div>
-          <div className="w-1/3 ">
-            <Card className="max-w-sm">
-              <div className="mb-4 flex items-center justify-between">
-                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Client messages</h5>
-                <a href="#" className="text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+
+          {/* RIGHT SECTION */}
+          <div className="w-full lg:w-1/3">
+            <Card>
+              <div className="flex justify-between mb-4">
+                <h5 className="text-xl font-bold">
+                  Client messages
+                </h5>
+                <a className="text-sm text-cyan-600 hover:underline">
                   View all
                 </a>
               </div>
-              <div className="flow-root">
-                <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="shrink-0">
-                        <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Neil Sims</p>
-                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">What should i eat after workout</p>
-                      </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">1 min ago</div>
-                    </div>
-                  </li>
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="shrink-0">
-                        <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Bonnie Green</p>
-                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">Looking forward to our session tomorrow</p>
-                      </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        3 min ago
-                      </div>
-                    </div>
-                  </li>
 
-
-                  <li className="pb-0 pt-3 sm:pt-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="shrink-0">
-                        <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" alt="avatar of Jese" rounded />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">Thomes Lean</p>
-                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">Just crushed my workout</p>
-                      </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        3 min ago
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              <ul className="divide-y">
+                <li className="py-4 flex items-center gap-4">
+                  <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" rounded />
+                  <div className="flex-1">
+                    <p className="font-medium">Neil Sims</p>
+                    <p className="text-sm text-gray-500">
+                      What should I eat after workout
+                    </p>
+                  </div>
+                  <span className="text-sm">1 min ago</span>
+                </li>
+              </ul>
             </Card>
           </div>
+
         </div>
       </div>
+
     </div>
   )
 }

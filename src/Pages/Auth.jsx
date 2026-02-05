@@ -41,7 +41,7 @@ function Auth({ register }) {
         if (result.status == 200) {
           sessionStorage.setItem('token', result.data.token)
           sessionStorage.setItem('user',JSON.stringify(result.data.existingUser))
-          if (result.data.existingUser.role == "FlexUp user") {
+          if (result.data.existingUser.role == "flexUp user") {
             setTimeout(() => {
               navigate('/community-feed')
             }, 3000)
@@ -158,8 +158,8 @@ function Auth({ register }) {
                 }
               >
                 <option value="">Select Role</option>
-                <option value="FlexUp user">FlexUp user</option>
-                <option value="FlexUp trainer">FlexUp trainer</option>
+                <option value="FlexUp user">flexUp user</option>
+                <option value="FlexUp trainer">flexUp trainer</option>
               </Select>
             </div>
             <div className="flex items-center gap-2">
