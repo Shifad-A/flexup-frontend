@@ -61,8 +61,6 @@ function Profile() {
                         <Tabs className='flex justify-center flex-wrap px-20 ' aria-label="Tabs with icons" variant="underline">
                             <TabItem active title="About" icon={HiUserCircle}>
                                {user.bio}
-
-
                             </TabItem>
                             <TabItem title="Requests" icon={HiClipboardList}>
                                 <div className='flex gap-10 justify-start flex-wrap p-10 '>

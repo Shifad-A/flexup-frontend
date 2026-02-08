@@ -1,8 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TrainerHeader from '../Components/TrainerHeader'
 import TrainerSidebar from '../Components/TrainerSidebar'
 import { Avatar, Button, Textarea } from "flowbite-react";
+import { viewMyClientsAPI } from '../../services/allAPIs';
+
 function Schedules() {
+  const [token, setToken] = useState(sessionStorage.getItem('token'))
+      const [myClients,setMyClients]=useState([])
+      
+      const handleMyClients = async () => {  
+         try {
+               const reqHeader = {
+              Authorization: `Bearer ${token}`
+          }
+          const result=await viewMyClientsAPI(reqHeader)
+          console.log(result);
+          setMyClients(result.data)
+         } catch (err) {
+              console.log(err);  
+         }
+          
+      }
+  
+      useEffect(()=>{
+          handleMyClients()
+      },[token])
   return (
     <div>
 
@@ -24,78 +46,16 @@ function Schedules() {
         <div className='p-5  '>
           <h1 className='font-bold mb-5'>active clients</h1>
           <div className='flex justify-start gap-10 text-center overflow-x-auto w-full hide-scrollbar '>
-            <div >
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
+            {
+              myClients && myClients.length>0?
+              myClients.map(item=>(
+                <div >
+              <img className='border border-green-400 rounded-full p-2' src={item.user.profile} alt="" width='80px' />
+              <p className='font-bold'>{item.user.username}</p>
             </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
-            <div>
-              <img className='border border-green-400 rounded-full p-2' src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" width='80px' />
-              <p className='font-bold'>shifad</p>
-            </div>
+              )):"You don't have any users"
+            }
+            
           </div>
         </div>
 

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
 import { Button, Card, TextInput } from "flowbite-react";
 import { HiSearch } from "react-icons/hi";
 import { MdVerifiedUser } from "react-icons/md";
 import { getTrainerAPI, trainerRequestAPI } from '../../services/allAPIs';
+import { searchContext } from '../../context/SearchContextShare';
 
 function Trainers() {
+
+    const {searchKey,setSearchKey}=useContext(searchContext)
     const [token, setToken] = useState('')
     const [trainers, setTrainers] = useState([])
     console.log(token);
@@ -27,7 +30,7 @@ function Trainers() {
             const reqHeader = {
             Authorization: `Bearer ${token}`
         }
-        const result = await getTrainerAPI(reqHeader)
+        const result = await getTrainerAPI(searchKey,reqHeader)
         console.log(result);
         setTrainers(result.data)
         } catch (err) {
@@ -37,7 +40,7 @@ function Trainers() {
     }
     useEffect(() => {
         allTrainers()
-    }, [token])
+    }, [token,searchKey])
 
     const handleTrainerRequest=async(trainerId)=>{
 
@@ -57,14 +60,7 @@ function Trainers() {
             
         } catch (err) {
             console.log(err);
-            
-            
         }
-
-        
-
-
-
     }
 
     return (
@@ -78,12 +74,13 @@ function Trainers() {
                     <h1 className='text-2xl font-semibold pt-10'>Find Your Trainer</h1>
                     <div className="max-w-md mx-auto">
                         <TextInput
+                        onChange={(e)=>setSearchKey(e.target.value)}
                             id="search"
                             type="text"
                             icon={HiSearch}
                             placeholder="Search trainers..."
                             required
-                            className='w-100'
+                            className='w-100 '
                         />
                     </div>
                     <div className='flex gap-5 p-5 flex-wrap justify-start p-3 '>

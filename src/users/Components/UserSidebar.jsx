@@ -21,7 +21,7 @@ function UserSidebar() {
                     Trainers
                   </SidebarItem>
                   <SidebarItem  as={Link} to='/friends' icon={FaUserFriends} >
-                    friends
+                    flexUp users
                   </SidebarItem>
                   <SidebarItem as={Link} to='/messages' icon={IoNotifications} >
                     Messages

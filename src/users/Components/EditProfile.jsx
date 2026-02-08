@@ -15,6 +15,7 @@ function EditProfile() {
 
     useEffect(() => {
         const storedToken = sessionStorage.getItem('token')
+
         if (storedToken) {
             setToken(storedToken)
         }

@@ -20,11 +20,11 @@ export const getUserAPI=async(reqHeader)=>{
 export const updateUserAPI=async(reqBody,reqHeader)=>{
         return await commonAPI('put',`${serverURL}/api/update-user`,reqBody,reqHeader)
 }
-export const getUsersAPI=async(reqHeader)=>{
-        return await commonAPI('get',`${serverURL}/api/all-users`,{},reqHeader)
+export const getUsersAPI=async(page,reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/all-users?page=${page}&limit=3`,{},reqHeader)
 }
-export const getTrainerAPI=async(reqHeader)=>{
-        return await commonAPI('get',`${serverURL}/api/all-trainers`,{},reqHeader)
+export const getTrainerAPI=async(searchKey,reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/all-trainers?search=${searchKey}`,{},reqHeader)
 }
 export const trainerRequestAPI=async(reqBody,reqHeader)=>{
         return await commonAPI('post',`${serverURL}/api/trainer-request`,reqBody,reqHeader)
@@ -43,4 +43,13 @@ export const viewMyClientsAPI=async(reqHeader)=>{
 }
 export const dashboardStatusAPI=async(reqHeader)=>{
         return await commonAPI('get',`${serverURL}/api/get-dashStatus`,{},reqHeader)
+}
+export const createPostAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/post`,reqBody,reqHeader)
+}
+export const getAllPostsAPI=async()=>{
+        return await commonAPI('get',`${serverURL}/api/get/post`,{},{})
+}
+export const likeAndDisLikeAPI=async(id,reqHeader)=>{
+        return await commonAPI('put',`${serverURL}/api/likes/${id}`,{},reqHeader)
 }
