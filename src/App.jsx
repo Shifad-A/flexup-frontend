@@ -14,6 +14,8 @@ import TrainerEarnings from './trainers/Pages/TrainerEarnings'
 import MyClients from './trainers/Pages/MyClients'
 import MyTrainers from './users/Pages/MyTrainers'
 import UserMessages from './users/Pages/UserMessages'
+import PaymentSuccess from './users/Pages/PaymentSuccess'
+import PaymentError from './users/Pages/PaymentError'
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
        <Route path='/trainers' element={<Trainers />} /> 
        <Route path='/my-trainers' element={<MyTrainers/>}/>
        <Route path='/messages' element={<UserMessages/>}/>
+       <Route path='/payment-success' element={<PaymentSuccess/>}/>
+       <Route path='/payment-error' element={<PaymentError/>}/>
        {/* Trainer */}
         <Route path='trainer-dashboard' element={<TrainerDashboard/>}/>
         <Route path='trainer-messages' element={<Messages/>}/>

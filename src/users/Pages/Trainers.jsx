@@ -24,7 +24,7 @@ function Trainers() {
     }, [])
 
     const allTrainers = async () => {
-        console.log("inside all books");
+        console.log("inside all trainers");
 
         try {
             const reqHeader = {
@@ -74,13 +74,14 @@ function Trainers() {
                     <h1 className='text-2xl font-semibold pt-10'>Find Your Trainer</h1>
                     <div className="max-w-md mx-auto">
                         <TextInput
+
                         onChange={(e)=>setSearchKey(e.target.value)}
                             id="search"
                             type="text"
                             icon={HiSearch}
                             placeholder="Search trainers..."
                             required
-                            className='w-100 '
+                            className='w-100'
                         />
                     </div>
                     <div className='flex gap-5 p-5 flex-wrap justify-start p-3 '>

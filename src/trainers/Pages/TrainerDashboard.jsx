@@ -208,7 +208,7 @@ const handleDashboardStatus=async()=>{
           </div>
 
           {/* RIGHT SECTION */}
-          <div className="w-full lg:w-1/3">
+          <div className="w-full lg:w-1/3 mt-20">
             <Card>
               <div className="flex justify-between mb-4">
                 <h5 className="text-xl font-bold">
@@ -230,8 +230,29 @@ const handleDashboardStatus=async()=>{
                   </div>
                   <span className="text-sm">1 min ago</span>
                 </li>
+                <li className="py-4 flex items-center gap-4">
+                  <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" rounded />
+                  <div className="flex-1">
+                    <p className="font-medium">Neil Sims</p>
+                    <p className="text-sm text-gray-500">
+                      What should I eat after workout
+                    </p>
+                  </div>
+                  <span className="text-sm">1 min ago</span>
+                </li>
+                <li className="py-4 flex items-center gap-4">
+                  <Avatar img="https://cdn.pixabay.com/photo/2024/08/28/21/51/men-9005146_640.jpg" rounded />
+                  <div className="flex-1">
+                    <p className="font-medium">Neil Sims</p>
+                    <p className="text-sm text-gray-500">
+                      What should I eat after workout
+                    </p>
+                  </div>
+                  <span className="text-sm">1 min ago</span>
+                </li>
               </ul>
             </Card>
+            
           </div>
 
         </div>

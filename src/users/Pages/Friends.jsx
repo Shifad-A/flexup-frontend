@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Card, Button, TextInput, Pagination } from "flowbite-react";
 import UserSidebar from '../Components/UserSidebar';
 import UserHeader from '../Components/UserHeader';
-import { getUsersAPI } from '../../services/allAPIs';
+import { getUsersAPI, requestFriendAPI } from '../../services/allAPIs';
 import { HiSearch } from "react-icons/hi";
 import { searchContext } from '../../context/SearchContextShare';
 
@@ -19,6 +19,7 @@ function Friends() {
     
     const [token, setToken] = useState('')
     const [users, setUsers] = useState([])
+    const [requestStatus,setRequestStatus]=useState(false)
     console.log(token);
     console.log(users);
 
@@ -44,6 +45,25 @@ function Friends() {
     useEffect(() => {
         allUsers(page)
     }, [token, page])
+
+    const handleFriendRequest=async(id)=>{
+        try {
+            const reqHeader={
+            Authorization: `Bearer ${token}`
+        }
+        const result =await requestFriendAPI(id,reqHeader)
+        console.log(result);
+        if(result.status==200 ){
+            alert(result.data.message)
+        }else if(result.status==401){
+            alert(result.response.data)
+        }
+        
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div>
             <UserHeader />
@@ -74,10 +94,12 @@ function Friends() {
                                             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{item.username}</h5>
                                             <span className="text-sm text-gray-500 dark:text-gray-400">{item.role}</span>
                                             <div className="mt-4 flex space-x-3 lg:mt-6">
-
-                                                <Button className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800" >Add friend</Button>
+                                                <Button
+                                                onClick={()=>handleFriendRequest(item._id)}
+                                                className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800" >Add friend</Button>
 
                                                 <Button
+                                                
                                                     className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                 >
                                                     Message

@@ -53,3 +53,28 @@ export const getAllPostsAPI=async()=>{
 export const likeAndDisLikeAPI=async(id,reqHeader)=>{
         return await commonAPI('put',`${serverURL}/api/likes/${id}`,{},reqHeader)
 }
+export const requestFriendAPI=async(id,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/requestFriend/${id}`,{},reqHeader)
+}
+export const getFriendRequestsAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get/pendingRequests`,{},reqHeader)
+}
+export const acceptFriendRequestAPI=async(id,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/accept/friendRequest/${id}`,{},reqHeader)
+}
+export const rejectFriendRequestAPI=async(id,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/reject/friendRequest/${id}`,{},reqHeader)
+}
+export const getAllFriendsAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get/allFriends/`,{},reqHeader)
+}
+
+export const trainerInstructionAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/add/instruction`,reqBody,reqHeader)
+}
+export const getMyTrainerAPI=async(reqHeader)=>{
+        return await commonAPI('get',`${serverURL}/api/get/myTrainer`,{},reqHeader)
+}
+export const getTrainerInstructionAPI=async(reqBody,reqHeader)=>{
+        return await commonAPI('post',`${serverURL}/api/get/trainer-instruction`,reqBody,reqHeader)
+}
